@@ -1,0 +1,160 @@
+---
+title: "ANALISIS EKSPOR TEBU INDONESIA TERHADAP ASEAN DALAM 10 TAHUN TERAKHIR"
+subtitle: "Metode Penelitian Politeknik APP Jakarta"
+author: "Muhammad D Prayoga"
+date: 2024-12-31
+number-sections: true
+format:
+  html: default
+  docx: default
+---
+
+![Politeknik APP Jakarta](poltekapp.jpg)
+
+## Pendahuluan
+
+### Latar Belakang
+
+Tebu termasuk ke dalam komoditas utama yang berperan penting pada sektor agribisnis global, khususnya sebagai bahan baku gula dan produk turunan lainnya. Dalam beberapa tahun terakhir ini, perdagangan internasional tebu menunjukan sebuah dinamika yang dipengaruhi oleh berbagai faktor sebagai contohnya seperti permintaan pasar global, kebijakan perdagangan, perubahan iklim, dan inovasi teknologi di sektor pertanian. Negara ASEAN seperti Thailand, Indonesia, dan Filiphina memainkan peran signifikan dalam memproduksi serta mengekspor tebu di kawasan ini. Penelitian ini bertujuan untuk menganalisis pola ekspor tebu, mengidentifikasi tantangan utama dalam perdagangan internasional terutama di wilayah ASEAN. Dengan menggunakan data perdagangan internasional dan kebijakan agribisnis, hasil penelitian memnunjukkan bahwa Thailand menjadi eksportir tebu utama di ASEAN, berkontribusi besar terhadap pasar dunia, sedangkan negara lain seperti Indonesia dan Filiphina lebih fokus pada pemenuhan kebutuhan domestik akibat keterbatasan pada produktivitas negara dan efisiensi rantai pasoknya.
+
+### Ruang Lingkup
+
+Ruang lingkup pada penelitian kali ini adalah wilayah Indonesia dengan wilayah ASEAN. Lingkup tersebut telah kita peroleh datanya berdasarkan Badan Pusat Statistik dari tahun 2012 hingga tahun 2021. Data yang diperoleh menunjukkan bahwa ekspor Indonesia jauh lebih tinggi daripada ekspor ASEAN terhadap Internasional. Namun kenyataannya bahwa Indonesia hanya mengekspor ke wilayah ASEAN saja, dan yang mengekspor ke negara diluar terbesar diperoleh oleh Thailand. Maka dari itu kita mengambil wilayah Indonesia untuk dibandingkan dengan ASEAN.
+
+### Rumusan Masalah
+
+1.  Bagaimana pola dan tren ekspor tebu Indonesia periode 2012-2021
+2.  Pengaruh Ekpor tebu Indonesia Terhadap ASEAN
+
+### Tujuan dan Manfaat Penelitian
+
+#### Tujuan
+
+1.  Memahami pola dan tren ekspor ekspor tebu Indonesia periode 2010-2021
+2.  Mengidentifikasi ekspor tebu Indonesia terhadap ASEAN
+
+#### Manfaat
+
+3.  Menyediakan kerangka analitis terkait ekspor tebu Indonesia untuk dipahami
+4.  Memberikan gambaran terkait peluang dan tantangan ekspor tebu di pasar Internasional
+
+### Package
+
+```{r}
+#| warning: false
+#| echo: true
+library(tidyverse)
+library(readxl)
+```
+
+## Studi Pustaka
+
+Kotler dan Amstrong (1998:255) menjelaskan bahwa ekspor merupakan cara paling sederhana untuk memasuki pasar di luar negeri. Mengekspor adalah memasuki pasar luar negeri dengan mengirimkan produk dan menjualnya lewat perantara pemasaran internasional (mengekspor tidak langsung) atau lewat departemen, cabang, atau perwakilan penjualan milik perusahaan sendiri atau agen (mengekspor langsung).
+
+Tebu merupakan bahan baku utama dalam pembuatan produk gula tebu. Selama proses produksi tebu menjadi gula, selain menghasilkan gula sebagai produk utama, proses tersebut juga menghasilkan produk sampingan dan limbah buangan. Salah satu produk sampingan hasil dari proses produksi gula adalah tetes tebu (molasses). Tetes tebu sudah lama dimanfaatkan untuk pembuatan etanol dan bahan pembuatan monosodium glutamate (MSG, atau salah satu bahan untuk membuat bumbu masak) (Misran, 2005).
+
+## Metode Penelitian
+
+### Data
+
+| Ekspor Tebu Indonesia | Ekspor Tebu ASEAN |
+|-----------------------|-------------------|
+| 1                     | 1,51              |
+| 92                    | 4,72              |
+| 183                   | 7,58              |
+| 269                   | 9,43              |
+| 150                   | 12,55             |
+| 133                   | 12,19             |
+| 143                   | 17,28             |
+| 122                   | 4,51              |
+| 38                    | 13,68             |
+| 20                    | 25,85             |
+
+Data berikut terhitung dalam ribuan Dollar Amerika Serikat
+
+Penelitian ini menggunakan data yang kita dapat dari Badan Pusat Statistik
+
+```{r}
+dat<-read_excel('data ekspor tebu indo dan dunia.xlsx')
+plot(dat$X,dat$Y,xlab="data ekspor indonesia",ylab="data ekspor asean", col = "blue")
+```
+
+### Metode Analisis
+
+Metode yang dipilih adalah regresi univariat atau Ordinary Least Square (OLS) dengan 1 variabel independen. Penelitian ini bermaksud mencari hubungan antara Ekspor Tebu Indonesia dan Ekspor Tebu ASEAN. Spesifikasi yang dilakukan adalah:
+
+$$
+y_{t}=\beta_0 + \beta_1 x_t+\mu_t
+$$ Di mana $y_t$ adalah Ekspor Tebu Indonesia dan $x_t$ adalah Ekspor Tebu ASEAN.
+
+## Pembahasan
+
+### Pembahasan Masalah
+
+Saya akan memvisualisasikan data yang sudah saya dapat untuk dilakukan regresi
+
+```{r}
+dat<-read_excel('data ekspor tebu indo dan dunia.xlsx')
+
+plot(dat$X,dat$Y,xlab="data ekspor indonesia",ylab="data ekspor asean")
+
+reg1<-lm(Y~X,data=dat)
+summary(reg1)
+```
+
+### Analisis Masalah
+
+Hasil regresinya adalah
+
+```{r}
+reg1<-lm(Y~X,data=dat)
+summary(reg1)
+```
+
+Setelah itu, kita akan mencari Error data
+
+```{r}
+dat$u<-resid(reg1) # generate error
+plot(dat$Y,dat$u,xlab="data ekspor asean",ylab="Error", col = "blue") # plot error vs Y
+abline(h=0, col = "red") # membuat garis horizontal di y=0
+```
+
+Setelahnya coba kita buat garis regresinya
+
+```{r}
+# Membuat model regresi linear
+model <- lm(Y ~ X, data = dat)
+
+# Menampilkan ringkasan hasil regresi
+summary(model)
+```
+
+```{r}
+# Menampilkan persamaan regresi
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+cat("Persamaan regresi: Y =", intercept, "+", slope, "* X\n")
+```
+
+```{r}
+# Membuat plot data dan garis regresi
+plot(dat$X, dat$Y, main = "Regresi Linear: Ekspor Indonesia vs Ekspor ASEAN",
+     xlab = "Ekspor Indonesia", ylab = "Ekspor ASEAN", pch = 16, col = "blue")
+abline(model, col = "red", lwd = 2)
+```
+
+Saat ini kita sudah menemukan persamaan regresinya beserta dengan garis lurus pada plotnya.
+
+## Kesimpulan
+
+Hasil penelitian variabel Ekspor Tebu Indonesia berpengaruh negatif tidak signifikan, setiap kenaikan Ekspor Tebu ASEAN sebesar 1% maka akan mengakibatkan nilai Ekspor Tebu Indonesia turun sebesar 0.011%.
+
+Bagian ini berisi jawaban dari permasalahan dan tujuan yang diajukan pada laporan, yang diperoleh dari hasil pembahasan dan usulan perbaikan. Saran merupakan tindak lanjut dari kesimpulan, berupa anjuran atau rekomendasi yang disampaikan secara ringkas dan dapat diimplementasikan
+
+## Referensi
+
+Yuni Arta Brilliani, Mochammad Al Musadieq, Edy Yulianto (25 Agustus 2016), PENGARUH PRODUKSI TEBU DOMESTIK DAN NILAI TUKAR TERHADAP EKSPOR TETES TEBU INDONESIA TAHUN 2012-2014, https://www.neliti.com/publications/87126/pengaruh-produksi-tebu-domestik-dan-nilai-tukar-terhadap-ekspor-tetes-tebu-indon
+
+Badan Pusat Statistik, https://www.bps.go.id/id/exim
+
+Trade Map, https://www.trademap.org/Product_SelCountry_TS.aspx?nvpm=1%7c%7c20%7c%7c%7c121293%7c%7c%7c6%7c1%7c1%7c2%7c2%7c1%7c1%7c1%7c1%7c1
